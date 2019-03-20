@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GA.cs" />
+    <Compile Include="GASolution.cs" />
     <Compile Include="HillClimbing.cs" />
     <Compile Include="RandomSearch.cs" />
     <Compile Include="Problem.cs" />

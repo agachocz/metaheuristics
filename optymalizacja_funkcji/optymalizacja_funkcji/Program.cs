@@ -13,15 +13,17 @@ namespace optymalizacja_funkcji
         {
             Random rand = new Random();
 
-            double result = RandomSearch.Run(300, rand);
-            Console.WriteLine("Random search: " + result);
-        
+            //double result = RandomSearch.Run(300, rand);
+            //Console.WriteLine("Random search: " + result);
 
-            double result2 = HillClimbing.Run(300, rand);
-            Console.WriteLine("Hill climbing: " + result2);
 
-            double result3 = TabooSearch.Run(300, rand, 4);
-            Console.WriteLine("Taboo search: " + result3);
+            //double result2 = HillClimbing.Run(300, rand);
+            //Console.WriteLine("Hill climbing: " + result2);
+
+            //double result3 = TabooSearch.Run(300, rand, 3);
+            //Console.WriteLine("Taboo search: " + result3);
+            //Console.ReadKey();
+
             Console.ReadKey();
         }
     }

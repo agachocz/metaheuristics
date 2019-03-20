@@ -33,6 +33,7 @@ namespace optymalizacja_funkcji
 
                     }
                 }
+                else { i--; }
             }
 
             return max;
