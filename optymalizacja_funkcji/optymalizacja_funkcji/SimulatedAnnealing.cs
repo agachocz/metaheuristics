@@ -37,6 +37,8 @@ namespace optymalizacja_funkcji
                 {
                     s = ns;
                 }
+
+                //what about temperature???
             }
 
             return s.fitness;

@@ -13,28 +13,24 @@ namespace optymalizacja_funkcji
         {
             Random rand = new Random();
 
-            //double result = RandomSearch.Run(300, rand);
-            //Console.WriteLine("Random search: " + result);
+            double result = RandomSearch.Run(1000, rand);
+            Console.WriteLine("Random search: " + result);
 
+            double result2 = HillClimbing.Run(1000, rand);
+            Console.WriteLine("Hill climbing: " + result2);
 
-            //double result2 = HillClimbing.Run(300, rand);
-            //Console.WriteLine("Hill climbing: " + result2);
+            double result3 = TabooSearch.Run(1000, rand, 3);
+            Console.WriteLine("Taboo search: " + result3);        
 
-            //double result3 = TabooSearch.Run(300, rand, 3);
-            //Console.WriteLine("Taboo search: " + result3);
-            //Console.ReadKey();
-
-            GA ga = new GA(50, 10, 0.1, rand);
-            double result4 = ga.Run(300);
+            GA ga = new GA(20, 10, 0.1, rand);
+            double result4 = ga.Run(50);
             Console.WriteLine("Genetic algorithm: " + result4);
-            Console.ReadKey();
 
             SimulatedAnnealing sa = new SimulatedAnnealing(-1, 2, 6, rand);
-            double result5 = sa.Run(300, 0.0002, rand);
+            double result5 = sa.Run(1000, 0.0002, rand);
             Console.WriteLine("Simulated annealing: " + result5);
             Console.ReadKey();
 
-            //Console.ReadKey();
         }
     }
 }
