@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace optymalizacja_funkcji
 {
-    class GASolution
+    class Solution
     {
 
         uint precision;
@@ -18,7 +18,7 @@ namespace optymalizacja_funkcji
         public double fitness;
         Random rand;
 
-        public GASolution (int min, int max, uint precision, Random rand)
+        public Solution (int min, int max, uint precision, Random rand)
         {
             this.precision = precision;
             this.min = min;
@@ -71,6 +71,27 @@ namespace optymalizacja_funkcji
                 }
             }
             
+        }
+
+        public void CrossOver(Solution parent, double crossProb)
+        {
+            if(rand.NextDouble() < crossProb)
+            {
+                int point = rand.Next((int)length);
+                for(int i=point; i<(int)length; i++)
+                {
+                    byte temp = this.solution[i];
+                    this.solution[i] = parent.solution[i];
+                    parent.solution[i] = this.solution[i];
+                }
+            }
+        }
+
+        public Solution Clone()
+        {
+            Solution clone = (Solution) this.MemberwiseClone();
+            clone.solution = (byte[]) this.solution.Clone();
+            return clone;
         }
     }
 }

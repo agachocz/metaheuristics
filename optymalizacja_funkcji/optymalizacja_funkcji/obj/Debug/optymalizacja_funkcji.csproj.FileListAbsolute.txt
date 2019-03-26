@@ -10,3 +10,9 @@ C:\Users\Agnieszka\Desktop\studia\metaheurystyki\optymalizacja_funkcji\optymaliz
 C:\Users\Agnieszka\Desktop\studia\metaheurystyki\optymalizacja_funkcji\optymalizacja_funkcji\bin\Debug\optymalizacja_funkcji.exe
 C:\Users\Agnieszka\Desktop\studia\metaheurystyki\optymalizacja_funkcji\optymalizacja_funkcji\bin\Debug\optymalizacja_funkcji.pdb
 C:\Users\Agnieszka\Desktop\studia\metaheurystyki\optymalizacja_funkcji\optymalizacja_funkcji\obj\Debug\optymalizacja_funkcji.csprojResolveAssemblyReference.cache
+H:\MwEiZ\optymalizacja funkcji\optymalizacja_funkcji\optymalizacja_funkcji\bin\Debug\optymalizacja_funkcji.exe.config
+H:\MwEiZ\optymalizacja funkcji\optymalizacja_funkcji\optymalizacja_funkcji\obj\Debug\optymalizacja_funkcji.exe
+H:\MwEiZ\optymalizacja funkcji\optymalizacja_funkcji\optymalizacja_funkcji\obj\Debug\optymalizacja_funkcji.pdb
+H:\MwEiZ\optymalizacja funkcji\optymalizacja_funkcji\optymalizacja_funkcji\bin\Debug\optymalizacja_funkcji.exe
+H:\MwEiZ\optymalizacja funkcji\optymalizacja_funkcji\optymalizacja_funkcji\bin\Debug\optymalizacja_funkcji.pdb
+H:\MwEiZ\optymalizacja funkcji\optymalizacja_funkcji\optymalizacja_funkcji\obj\Debug\optymalizacja_funkcji.csprojResolveAssemblyReference.cache

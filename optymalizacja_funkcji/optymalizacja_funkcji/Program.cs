@@ -24,7 +24,17 @@ namespace optymalizacja_funkcji
             //Console.WriteLine("Taboo search: " + result3);
             //Console.ReadKey();
 
+            GA ga = new GA(50, 10, 0.1, rand);
+            double result4 = ga.Run(300);
+            Console.WriteLine("Genetic algorithm: " + result4);
             Console.ReadKey();
+
+            SimulatedAnnealing sa = new SimulatedAnnealing(-1, 2, 6, rand);
+            double result5 = sa.Run(300, 0.0002, rand);
+            Console.WriteLine("Simulated annealing: " + result5);
+            Console.ReadKey();
+
+            //Console.ReadKey();
         }
     }
 }
