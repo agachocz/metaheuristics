@@ -9,7 +9,7 @@ namespace optymalizacja_funkcji
     class Solution
     {
 
-        uint precision;
+        public uint precision;
         uint length;
         byte[] solution;
         byte zero = 0;

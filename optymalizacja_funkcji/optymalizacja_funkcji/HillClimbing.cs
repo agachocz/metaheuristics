@@ -12,15 +12,14 @@ namespace optymalizacja_funkcji
     {
         public static double Run(int maxIter, Random rand)
         {
-            double dev = 3;
+            double dev = 0.3;
 
             double max = double.MinValue;
           
 
-            for (int i = 0; i < maxIter; i++)
-            {
                 double x = rand.NextDouble() * 3 - 1;
                 double y = p.Function(x);
+
                 double xLeft = x - Math.Abs(p.Normal(0, dev));
                 if (xLeft < -1) xLeft = -1;
 
@@ -30,26 +29,38 @@ namespace optymalizacja_funkcji
                 double yLeft = p.Function(xLeft);
                 double yRight = p.Function(xRight);
 
-                bool progress = true;
+                maxIter -= 3;
 
-                do
-                {
                     if (yLeft > y)
                     {
-                        x = xLeft;
-                        y = yLeft;
+                        do {
+                            x = xLeft;
+                            y = yLeft;
+                            maxIter--;
+
+                            xLeft = x - Math.Abs(p.Normal(0, dev));
+                            if (xLeft < -1) xLeft = -1;
+                            yLeft = p.Function(xLeft);
+
+                        } while (yLeft > y && maxIter > 0);
+
                     }
                     else if (yRight > y)
                     {
-                        x = xRight;
-                        y = yRight;
-                    }
-                    else progress = false;
+                        do {
+                            x = xRight;
+                            y = yRight;
+                            maxIter--;
 
-                } while (progress);
+                            xRight = x + Math.Abs(p.Normal(0, dev));
+                            if (xRight > 2) xRight = 2;
+                            yRight = p.Function(xRight); 
+
+                        } while (yRight > y && maxIter > 0);
+                        
+                    }
 
                 if (y > max) max = y;
-            }
 
             return max;
         }

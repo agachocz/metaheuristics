@@ -25,7 +25,7 @@ namespace optymalizacja_funkcji
             for(int i = 0; i < maxIter; i++)
             {
                 ns = s.Clone();
-                ns.mutate(0.1);
+                ns.mutate(0.2);
                 ns.Evaluate();
 
                 double diff = ns.fitness - s.fitness;
@@ -37,8 +37,7 @@ namespace optymalizacja_funkcji
                 {
                     s = ns;
                 }
-
-                //what about temperature???
+                temp = 0.99 * temp;
             }
 
             return s.fitness;

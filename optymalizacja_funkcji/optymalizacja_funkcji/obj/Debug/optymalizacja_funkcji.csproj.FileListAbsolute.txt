@@ -16,3 +16,5 @@ H:\MwEiZ\optymalizacja funkcji\optymalizacja_funkcji\optymalizacja_funkcji\obj\D
 H:\MwEiZ\optymalizacja funkcji\optymalizacja_funkcji\optymalizacja_funkcji\bin\Debug\optymalizacja_funkcji.exe
 H:\MwEiZ\optymalizacja funkcji\optymalizacja_funkcji\optymalizacja_funkcji\bin\Debug\optymalizacja_funkcji.pdb
 H:\MwEiZ\optymalizacja funkcji\optymalizacja_funkcji\optymalizacja_funkcji\obj\Debug\optymalizacja_funkcji.csprojResolveAssemblyReference.cache
+C:\Users\Agnieszka\Desktop\studia\metaheurystyki\optymalizacja_funkcji\optymalizacja_funkcji\bin\Debug\MathNet.Numerics.dll
+C:\Users\Agnieszka\Desktop\studia\metaheurystyki\optymalizacja_funkcji\optymalizacja_funkcji\bin\Debug\MathNet.Numerics.xml

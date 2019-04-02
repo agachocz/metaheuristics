@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace optymalizacja_funkcji
 {
-    using prop = Problem;
+    using p = Problem;
 
     class RandomSearch
     {
@@ -18,7 +18,7 @@ namespace optymalizacja_funkcji
             for (int i = 0; i<maxIter; i++)
             {
                 double x = rand.NextDouble() * 3 - 1;
-                double y = prop.Function(x);
+                double y = p.Function(x);
                 if (y > max) max = y;
             }
 

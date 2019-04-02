@@ -61,7 +61,7 @@ namespace optymalizacja_funkcji
                 //cross
                 for(int j=0; j<popSize-1; j+=2)
                 {
-                    npop[j].CrossOver(npop[j + 1], 0.9);
+                    npop[j].CrossOver(npop[j + 1], 0.8);
                 }
 
                 for (int j = 0; j < popSize - 1; j += 2)
