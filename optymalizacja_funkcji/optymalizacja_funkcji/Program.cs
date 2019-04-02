@@ -29,6 +29,12 @@ namespace optymalizacja_funkcji
             SimulatedAnnealing sa = new SimulatedAnnealing(-1, 2, 6, rand);
             double result5 = sa.Run(1000, 0.0002, rand);
             Console.WriteLine("Simulated annealing: " + result5);
+            
+
+            ProblemTSP problem = new ProblemTSP();
+            problem.ReadProblem("TSP30.txt");
+            GA_TSP ga_tsp = new GA_TSP(20, 10, 0.1, rand);
+            ga_tsp.Run(50);
             Console.ReadKey();
 
         }
