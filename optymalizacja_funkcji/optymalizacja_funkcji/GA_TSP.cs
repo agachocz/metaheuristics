@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace optymalizacja_funkcji
 {
-    class GA
+    class GA_TSP
     {
         Solution[] pop;
         int popSize;
@@ -14,14 +14,14 @@ namespace optymalizacja_funkcji
         double cumFitness = 0;
         Random rand;
 
-        public GA(int popSize, int maxGen, double mutProb, Random rand)
+        public GA_TSP(int popSize, int maxGen, double mutProb, Random rand)
         {
             pop = new Solution[popSize];
             this.mutProb = mutProb;
             this.popSize = popSize;
             this.rand = rand;
 
-            for(int i=0; i<popSize; i++)
+            for (int i = 0; i < popSize; i++)
             {
                 pop[i] = new Solution(-1, 2, 6, rand);
                 //Initialization
@@ -34,21 +34,22 @@ namespace optymalizacja_funkcji
             }
         }
 
-        public double Run (int maxIter)
+        public double Run(int maxIter)
         {
             double bestFitness = double.MinValue;
 
-            for(int i=0; i<maxIter; i++)
+            for (int i = 0; i < maxIter; i++)
             {
-                
+
                 Solution[] npop = new Solution[popSize];
-                for(int j=0; j<popSize; j++)
+                for (int j = 0; j < popSize; j++)
                 {
 
                     //selection
                     int r1 = rand.Next(popSize);
                     int r2;
-                    do {
+                    do
+                    {
                         r2 = rand.Next(popSize);
                     } while (r1 == r2);
 
@@ -59,7 +60,7 @@ namespace optymalizacja_funkcji
                 }
 
                 //cross
-                for(int j=0; j<popSize-1; j+=2)
+                for (int j = 0; j < popSize - 1; j += 2)
                 {
                     npop[j].CrossOver(npop[j + 1], 0.9);
                 }
@@ -70,18 +71,14 @@ namespace optymalizacja_funkcji
                 }
 
                 foreach (Solution s in pop)
-                    {
-                        if (s.fitness > bestFitness) bestFitness = s.fitness;
-                    }
-
+                {
+                    if (s.fitness > bestFitness) bestFitness = s.fitness;
+                }
+                Console.WriteLine("Best fitness in iteration {0} : {1}", i, bestFitness);
             }
 
 
             return bestFitness;
         }
-
-        
-            
-     }
-   
+    }
 }
