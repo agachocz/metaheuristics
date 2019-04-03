@@ -1,5 +1,4 @@
-install.packages("dplyr")
-library(dplyr)
+
 
 results <- read.csv("optymalizacja_funkcji/bin/Debug/meta_results.txt", sep=";", dec=",")[1:5]
 names <- names(results)

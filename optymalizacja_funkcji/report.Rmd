@@ -1,0 +1,78 @@
+---
+title: "Sprawozdanie - optymalizacja funkcji"
+author: "Agnieszka Choczyńska"
+date: "3 kwietnia 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem
+
+Celem pracy jest porównanie zastosowania różnych metod heurystycznych do  znalezienia maksimum funkcji zadanej wzorem: $$f(x) = x^{2} * sin(15 * {\pi} * x) + 1$$ na przedziale [-1, 2].
+
+Pełny kod znajduje się w repozytorium pod adresem <https://github.com/agachocz/metaheuristics>. Niniejsze sprawozdanie zawiera tylko porównanie wyników.
+
+
+## Porównywane metody
+
+Do porównania wybrano następujące metody:
+
+- losowego przeszukiwania
+- wspinaczki z reprezentacją rzeczywistą
+- taboo search
+- symulowane wyżarzanie (reprezentacja binarna; temp. początkowa: 200; wsp. alpha: 0,99)
+- klasyczny algorytm genetyczny (reprezentacja binarna; p. krzyżowania = 0,8; p. mutacji = 0,05; krzyżówka jednopunktowa; selekcja turniejowa;
+
+
+We wszystkich metodach stosujących reprezentację binarną, dokładność wynosi 0,000001.
+
+
+## Metodologia
+
+Dla algorytmów ustawiono limit **1000** obliczeń funkcji celu, chyba, że algorytm zatrzyma się wcześniej (np. wspinaczkowy dotrze do optimum lokalnego.) Każde doświadczenie powtórzono 30 razy, aby skorzystać z asymptotycznego rozkładu dla dużych prób i nie mieć konieczności weryfikowania ich normalności. Średnie wyników porównano testem t-Studenta. 
+
+
+## Wyniki
+
+Wyniki wczytano z pliku, do którego zostały zapisane podczas przeprowadzania doświadczeń.
+
+```{r }
+results <- read.csv("optymalizacja_funkcji/bin/Debug/meta_results.txt", sep=";", dec=",")[1:5]
+names <- names(results)
+```
+
+Do macierzy zapisano wartości p.value przeprowadzonych testów, w których hipotezą alternatywną było, że średnia wyników pierwszej metody (w wierszu) jest **większa** od średniej wyników drugiej metody (w kolumnie). 
+
+```{r }
+comp_gr <- matrix(nrow = 5, ncol = 5)
+
+for(i in 1:5){
+  for(j in i:5){
+    comp_gr[i,j] <- t.test(results[i], results[j], alternative = "greater")$p.value
+    comp_gr[j,i] <- t.test(results[j], results[i], alternative = "greater")$p.value
+  }
+}
+
+colnames(comp_gr) <- names
+rownames(comp_gr) <- names
+
+kable(comp_gr, caption="Testy równości średnich wyników")
+```
+
+Na podstawie uzyskanych wyników można stwierdzić, że najlepiej poradziła sobie z zadaniem metoda **taboo search**. Na poziomie ponad 99% istotności jest lepsza od metody wspinaczkowej i algorytmu genetycznego, na poziomie 94% od losowego przeszukiwania i na poziomie 80% - od symulowanego wyżarzania. 
+
+Na podium uplasowało się również **symulowane wyżarzanie** i **przeszukiwanie losowe**. Gorzej wypada GA, a najsłabiej poradziła sobie metoda wspinaczkowa.
+
+
+## Wnioski
+
+Wyników nie należy traktować jako kategorycznego uznania, że dana metoda jest lepsza lub gorsza. Duży wpływ na to miał sam charakter funkcji celu oraz przyjęta metoda. 
+
+Algorytm taboo korzystał na tym, że unikał niepotrzebnego obliczania funkcji celu, co było przyjętym w badaniu kryterium zakończenia algorytmu. Algorytm wspinaczkowy prawdopodobnie poradził sobie słabo ze względu na postać funkcji celu, która posiada bardzo wiele ekstremów lokalnych i nie za bardzo nadaje się do przeszukiwania tą metodą. Algorytm genetyczny traci na tym, że oblicza funkcję celu bardzo wiele razy (liczba iteracji * wielkość populacji), co sprawia, że przy przyjętym limicie 1000 obliczeń musiał być bardzo ograniczony.
+
+Dodatkowo wydaje mi się, że relatywnie mała przestrzeń rozwiązań (jednowymiarowa funkcja na niedużym przedziale) faworyzuje prostsze algorytmy.
+
