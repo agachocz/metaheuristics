@@ -8,26 +8,24 @@ namespace optymalizacja_funkcji
 {
     class Solution_TSP
     {
-        uint precision;
         uint length;
-        int[] solution;
+        public int[] solution;
         public double fitness;
         Random rand;
 
-        public Solution_TSP(uint precision, Random rand)
+        public Solution_TSP(Random rand)
         {
-            this.precision = precision;
-            solution = new int[ProblemTSP.n];
+            solution = new int[Problem_TSP.n];
             this.rand = rand;
         }
 
         public void initialize()
         {
-            for (int i = 0; i < ProblemTSP.n; i++)
+            for (int i = 0; i < Problem_TSP.n; i++)
             {
                 solution[i] = i;
             }
-            for (int i = 0; i < ProblemTSP.n * ProblemTSP.n; i++)
+            for (int i = 0; i < Problem_TSP.n * Problem_TSP.n; i++)
             {
                 this.Swap();
             }
@@ -35,11 +33,12 @@ namespace optymalizacja_funkcji
 
         public void Swap()
         {
-            int p1 = rand.Next(ProblemTSP.n);
+
+            int p1 = rand.Next(Problem_TSP.n);
             int p2;
             do
             {
-                p2 = rand.Next(ProblemTSP.n);
+                p2 = rand.Next(Problem_TSP.n);
             } while (p1 == p2);
 
             int temp = solution[p1];
@@ -49,16 +48,56 @@ namespace optymalizacja_funkcji
 
         public void Mutate(double mutProb)
         {
-            if(rand.NextDouble() < mutProb)
+            if (rand.NextDouble() < mutProb)
             {
                 Swap();
             }
         }
 
+        public void Cross(Solution_TSP r1, double crossProb)
+        {
+            if (rand.NextDouble() < crossProb)
+            {
+                Solution_TSP c1 = new Solution_TSP(rand);
+                c1.solution = Enumerable.Repeat(-1, Problem_TSP.n).ToArray();
+                Solution_TSP c2 = new Solution_TSP(rand);
+                c2.solution = Enumerable.Repeat(-1, Problem_TSP.n).ToArray();
+
+                int np = rand.Next((int)Problem_TSP.n);
+
+                for (int i = 0; i < np; i++)
+                {
+                    int p = rand.Next((int)Problem_TSP.n);
+                    c1.solution[p] = this.solution[p];
+                    c2.solution[p] = r1.solution[p];
+                }
+
+                int p1 = 0, p2 = 0;
+                for (int i = 0; i < Problem_TSP.n; i++)
+                {
+                    if (c1.solution[i] == -1)
+                    {
+                        while (c1.solution.Contains(this.solution[p1])) p1++;
+                        c1.solution[i] = this.solution[p1];
+                    }
+                    if (c2.solution[i] == -1)
+                    {
+                        while (c2.solution.Contains(r1.solution[p2])) p2++;
+                        c2.solution[i] = r1.solution[p2];
+                    }
+                }
+
+                this.solution = c1.solution;
+                r1.solution = c2.solution;
+
+            }
+
+        }
+
 
         public void Evaluate()
         {
-            fitness = ProblemTSP.Function(solution);
+            this.fitness = Problem_TSP.Function(solution);
         }
 
         public Solution_TSP Clone()

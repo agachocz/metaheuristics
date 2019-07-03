@@ -8,26 +8,32 @@ namespace optymalizacja_funkcji
 {
     class GA_TSP
     {
-        Solution[] pop;
+        Solution_TSP[] pop;
+        Solution_TSP[] npop;
         int popSize;
         double mutProb;
+        double crossProb;
         double cumFitness = 0;
         Random rand;
+        int[] r;
+        double[] rfit;
 
-        public GA_TSP(int popSize, int maxGen, double mutProb, Random rand)
+        public GA_TSP(int popSize, double mutProb, double crossProb, Random rand)
         {
-            pop = new Solution[popSize];
+            pop = new Solution_TSP[popSize];
+            npop = new Solution_TSP[popSize];
             this.mutProb = mutProb;
+            this.crossProb = crossProb;
             this.popSize = popSize;
             this.rand = rand;
 
             for (int i = 0; i < popSize; i++)
             {
-                pop[i] = new Solution(-1, 2, 6, rand);
+                pop[i] = new Solution_TSP(rand);
                 //Initialization
                 pop[i].initialize();
                 //Mutation
-                pop[i].mutate(mutProb);
+                pop[i].Mutate(mutProb);
                 //Evaluation
                 pop[i].Evaluate();
                 cumFitness += pop[i].fitness;
@@ -36,45 +42,61 @@ namespace optymalizacja_funkcji
 
         public double Run(int maxIter)
         {
-            double bestFitness = double.MinValue;
+            double bestFitness = double.MaxValue;
 
             for (int i = 0; i < maxIter; i++)
             {
 
-                Solution[] npop = new Solution[popSize];
-                for (int j = 0; j < popSize; j++)
+                cumFitness = 0;
+                for (int j = 0; j < popSize-1; j+=2)
                 {
 
                     //selection
-                    int r1 = rand.Next(popSize);
-                    int r2;
+                    r = new int[4];
+                    
                     do
                     {
-                        r2 = rand.Next(popSize);
-                    } while (r1 == r2);
+                        for(int k = 0; k < 4; k++){
+                            r[k] = rand.Next(popSize);
+                        }              
 
-                    npop[j] = pop[r1].fitness > pop[r2].fitness ? pop[r1].Clone() : pop[r2].Clone();
+                    } while (r[0] == r[1] || r[0] == r[2] || r[0] == r[3] || r[1] == r[2] || r[1] == r[3] || r[2] == r[3]);
+
+                    rfit = new double[4];
+                    for(int k = 0; k < 4; k++){
+                            rfit[k] = pop[r[k]].fitness;
+                        } 
+                    Array.Sort(rfit, r);
+
+                    npop[j] = pop[r[0]];
+                    npop[j + 1] = pop[r[1]];
+
+                    npop[j].Cross(npop[j + 1], crossProb);
+
                     //mutation
-                    npop[j].mutate(mutProb);
+                    npop[j].Mutate(mutProb);
                     npop[j].Evaluate();
+
+                    npop[j+1].Mutate(mutProb);
+                    npop[j+1].Evaluate();
                 }
 
-                //cross
-                for (int j = 0; j < popSize - 1; j += 2)
+                //If popSize is odd, assign best element from previous iteration to the last element of npop
+                if (popSize % 2 == 1)
                 {
-                    npop[j].CrossOver(npop[j + 1], 0.9);
+                    npop[popSize - 1] = pop[r[0]];
                 }
 
-                for (int j = 0; j < popSize - 1; j += 2)
+                foreach (Solution_TSP s in npop)
                 {
-                    pop[j] = npop[j];
+                    if (s.fitness < bestFitness) bestFitness = s.fitness;
                 }
+                //Console.WriteLine("Best fitness in iteration {0} : {1}", i, bestFitness);
 
-                foreach (Solution s in pop)
+                for (int j = 0; j < popSize; j++)
                 {
-                    if (s.fitness > bestFitness) bestFitness = s.fitness;
+                    pop[j] = npop[j].Clone();
                 }
-                Console.WriteLine("Best fitness in iteration {0} : {1}", i, bestFitness);
             }
 
 
