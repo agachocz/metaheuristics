@@ -51,8 +51,8 @@ comp_gr_TSP <- matrix(nrow = 5, ncol = 5)
 
 for(i in 1:5){
   for(j in i:5){
-    comp_gr_TSP[i,j] <- t.test(results[i], results[j], alternative = "less")$p.value
-    comp_gr_TSP[j,i] <- t.test(results[j], results[i], alternative = "less")$p.value
+    comp_gr_TSP[i,j] <- t.test(results_TSP[i], results_TSP[j], alternative = "less")$p.value
+    comp_gr_TSP[j,i] <- t.test(results_TSP[j], results_TSP[i], alternative = "less")$p.value
   }
 }
 
@@ -68,5 +68,6 @@ Zdecydowanym faworytem okazuje się wersja ze **zwiększoną liczbą iteracji** 
 
 ## Wnioski
 
+Wyciągnięcie ogólnych wniosków na temat różnych parametrów algorytmu genetycznego jest bardzo trudne, ponieważ istnieje mnóstwo możliwych sposobów modyfikacji tego algorytmu, i wciąż powstają nowe. Wnioski z tego badania nie będą miały zastosowania w przypadku algorytmu, w którym zastosowano inne operatory mutacji, krzyżowania czy selekcji, albo w którym problem i przestrzeń rozwiązań były inne.
 
-
+W tym przypadku potwierdzają się jednak intuicje, że lepiej jest trzymać prawdopodobieństwo mutacji na niskim, a prawdopodobieństwo krzyżowania - na wysokim poziomie. Takie proporcje zastosowano w bazowej wersji algorytmu, i okazała się ona nie gorsza niż alternatywne, z innymi współczynnikami prawdopodobieństw.
