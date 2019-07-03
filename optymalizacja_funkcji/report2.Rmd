@@ -1,0 +1,72 @@
+---
+title: "Sprawozdanie - problem komiwojażera"
+author: "Agnieszka Choczyńska"
+date: "2 lipca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem
+
+Celem pracy jest porównanie zastosowania algorytmów genetycznych o różnych parametrach do rozwiązania problemu komiwojażera dla 30 miast.
+
+Pełny kod znajduje się w repozytorium pod adresem <https://github.com/agachocz/metaheuristics>. Niniejsze sprawozdanie zawiera tylko porównanie wyników.
+
+
+## Porównywane algorytmy
+
+Do porównania wybrano algorytmy o następujących różnicach w parametrach:
+
+- basic: 50 osobników, 50 pokoleń, prawd. mutacji: 0.1, prawd. krzyżowania: 0.8
+- highMutProb: 50 osobników, 50 pokoleń, prawd. mutacji: 0.3, prawd. krzyżowania: 0.8
+- lowCrossProb: 50 osobników, 50 pokoleń, prawd. mutacji: 0.1, prawd. krzyżowania: 0.5
+- moreIter: 25 osobników, 100 pokoleń, prawd. mutacji: 0.1, prawd. krzyżowania: 0.8
+- bigPop: 100 osobników, 25 pokoleń, prawd. mutacji: 0.1, prawd. krzyżowania: 0.8
+
+We wszystkich wersjach odległość jest obliczona 2500 razy. Za bazowy model przyjęto taki, w którym wielkość populacji i liczba pokoleń są równe, prawdopodobieństwo mutacji jest małe, a krzyżowania - duże. Wprowadzono kolejno wersje, w której zwiększane lub zmniejszane były poszczególne parametry.
+
+
+## Metodologia
+
+Każde doświadczenie powtórzono 30 razy, aby skorzystać z asymptotycznego rozkładu dla dużych prób i nie mieć konieczności weryfikowania ich normalności. Średnie wyników porównano testem t-Studenta. Istotne jest tu, że celem algorytmu była **minimalizacja** przebytej drogi, a więc najlepsza jest ta wersja, z wykorzystaniem której uzyskano **najniższą** średnią wyników.
+
+
+## Wyniki
+
+Wyniki wczytano z pliku, do którego zostały zapisane podczas przeprowadzania doświadczeń.
+
+```{r }
+results_TSP <- read.csv("optymalizacja_funkcji/bin/Debug/TSP_results.txt", sep=";", dec=",")[1:5]
+names_TSP <- names(results_TSP)
+```
+
+Do macierzy zapisano wartości p.value przeprowadzonych testów, w których hipotezą alternatywną było, że średnia wyników pierwszej metody (w wierszu) jest **mniejsza** od średniej wyników drugiej metody (w kolumnie). 
+
+```{r }
+comp_gr_TSP <- matrix(nrow = 5, ncol = 5)
+
+for(i in 1:5){
+  for(j in i:5){
+    comp_gr_TSP[i,j] <- t.test(results[i], results[j], alternative = "less")$p.value
+    comp_gr_TSP[j,i] <- t.test(results[j], results[i], alternative = "less")$p.value
+  }
+}
+
+colnames(comp_gr_TSP) <- names_TSP
+rownames(comp_gr_TSP) <- names_TSP
+
+kable(comp_gr_TSP, caption="Testy średnich wyników")
+```
+
+
+Zdecydowanym faworytem okazuje się wersja ze **zwiększoną liczbą iteracji** (mimo, że oznaczało to również zmniejszoną wielkość populacji). Uzyskała wyniki dużo lepsze od każdej z pozostałych wersji na ponad 99% poziomie istotności. Żadna z pozostałych odmian nie okazała się lepsza od bazowej, choć zdecydowanie najgorszym pomysłem było zwiększenie liczności populacji.
+
+
+## Wnioski
+
+
+
